@@ -1,4 +1,4 @@
-const products = [{
+/*const products = [{
   image: 'images/products/athletic-cotton-socks-6-pairs.jpg',
   name: 'Black and Gray Athletic Cotton Socks - 6 Pairs',
   rating: {
@@ -24,7 +24,18 @@ const products = [{
     count: 56
   },
   priceCents: 799
-}];
+},
+{
+  image: 'images/products/black-2-slot-toaster.jpg',
+  name: '2 Slot Toaster - Black',
+  rating: {
+    stars: 5,
+    count: 2197
+  },
+  priceCents: 1899}]; 
+  
+  this was commented out because, we shall no longer use it since we have our product.js, so the code will run through the products in products.js and later on come to amazon.js, so that it can be publish on the website
+  So the java sript file creates all the products and the second throug the products and creates all the html*/
 
 let productsHTML = '';
 
@@ -49,7 +60,7 @@ products.forEach((product) => {
             <div class="product-rating-count link-primary">
                ${product.rating.count}
             </div>
-          </div>
+          </div>     
 
           <div class="product-price">
            $${(product.priceCents / 100).toFixed(2)}
