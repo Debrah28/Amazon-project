@@ -80,9 +80,50 @@ products.forEach((product) => {
             Added
           </div>
 
-          <button class="add-to-cart-button button-primary">
+
+ <button class="add-to-cart-button button-primary js-add-to-cart"
+          data-product-name="${product.name}">
             Add to Cart
           </button>
         </div>`;
         
+});
+// so we have removed name and put id, this is because a product can have the same name but from different brands. we shall make it in a such a way that an id is unique to only one brand
+
+console.log(productsHTML);
+// the .(dot) means we are looing for a class js products grid. so it takes it an put it inside our javascript and we can change the html inside the element(product container). To do that we use the property .innerHTML and we change it to the productsHTML that we created above
+
+// so we are using the dom to put the html inside their respective containers 
+
+document.querySelector('.js-products-grid').innerHTML = productsHTML;
+
+document.querySelectorAll('.js-add-to-cart')
+// we loop through each of the buttons, so inside the forEach we give it a  function and a parameter. so the parameter is the button element, so for each of the buttons, we add an event listener, so that it does something when click the button add to cart.
+
+//'click' is the event we want to listen for and now a function we want to run when we click this button. 
+
+.forEach((button) => {
+  button.addEventListener('click', () => {
+     const productName = button.dataset.productName; 
+     // we reated the variable cart already in cart.js. So we are calling it forth. we are pushing object bec we wanted a product and a quantity. 
+
+     let matchingItem;
+     
+     cart.forEach((item) => {
+      if (productName === item.productName)
+      { matchingItem = item;
+      }
+     });
+
+     // we are typing matchingItem here because if we did find a matchingItem, it will be an object which is a truthy value
+     if (matchingItem) {
+      matchingItem.quantity += 1;
+     } else {
+        cart.push({
+      productName: productName,
+      quantity: 1
+     })
+     }
+     console.log(cart);
+  });
 });
