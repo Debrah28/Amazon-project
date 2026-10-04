@@ -129,6 +129,15 @@ document.querySelectorAll('.js-add-to-cart')
       quantity: 1
      })
      }
-     console.log(cart);
+
+     let cartQuantity = 0;
+
+     cart.forEach((item) => {
+      // we are adding the (item) quantity: to this variable cartQuantity. I am putting () and : to show you where they got it from. It adds all the quanitities and saves them in the cartQuantity variable
+      cartQuantity += item.quantity;
+     });
+
+// we got the class js-cart-quantity from amazon html from the div cart-quantity. we want to make the cart icon interactive
+     document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
   });
 });
