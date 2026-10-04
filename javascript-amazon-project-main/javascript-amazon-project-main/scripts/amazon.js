@@ -140,4 +140,4 @@ document.querySelectorAll('.js-add-to-cart')
 // we got the class js-cart-quantity from amazon html from the div cart-quantity. we want to make the cart icon interactive
      document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
   });
-});
+})
