@@ -1,4 +1,6 @@
-import {cart} from "../data/cart.js";  
+import {cart} from "../data/cart.js"; 
+import { products } from "../data/products.js"; 
+
 /*const products = [{
   image: 'images/products/athletic-cotton-socks-6-pairs.jpg',
   name: 'Black and Gray Athletic Cotton Socks - 6 Pairs',
@@ -39,7 +41,7 @@ import {cart} from "../data/cart.js";
   So the java sript file creates all the products and the second throug the products and creates all the html*/
 
 let productsHTML = '';
-
+//we to products from products.js
 products.forEach((product) => {
   //each time we go through the loop, we shall add the html string up there (let productsHTML = '';)
   // productsHTML =  productsHTML + is same as productsHTML +=
