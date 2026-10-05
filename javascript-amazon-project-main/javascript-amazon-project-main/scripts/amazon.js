@@ -1,3 +1,4 @@
+import {cart} from "../data/cart.js";  
 /*const products = [{
   image: 'images/products/athletic-cotton-socks-6-pairs.jpg',
   name: 'Black and Gray Athletic Cotton Socks - 6 Pairs',
@@ -140,4 +141,4 @@ document.querySelectorAll('.js-add-to-cart')
 // we got the class js-cart-quantity from amazon html from the div cart-quantity. we want to make the cart icon interactive
      document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
   });
-})
+});
