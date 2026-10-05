@@ -1,4 +1,4 @@
-import {cart} from "../data/cart.js"; 
+import {cart, addToCart} from "../data/cart.js"; 
 import { products } from "../data/products.js"; 
 
 /*const products = [{
@@ -107,6 +107,19 @@ console.log(productsHTML);
 
 document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
+// so we are keeping updateCartQuantity here instead, because the function instead helps in updating the webpage rather than managing the cart. So we are keeping the function inside thi file for now
+function updateCartQuantity() {
+   let cartQuantity = 0;
+
+     cart.forEach((cartItem) => {
+      // we are adding the (item) quantity: to this variable cartQuantity. I am putting () and : to show you where they got it from. It adds all the quanitities and saves them in the cartQuantity variable
+      cartQuantity += cartItem.quantity;
+     });
+
+// we got the class js-cart-quantity from amazon html from the div cart-quantity. we want to make the cart icon interactive
+     document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
+}
+
 document.querySelectorAll('.js-add-to-cart')
 // we loop through each of the buttons, so inside the forEach we give it a  function and a parameter. so the parameter is the button element, so for each of the buttons, we add an event listener, so that it does something when click the button add to cart.
 //'click' is the event we want to listen for and now a function we want to run when we click this button.  
@@ -115,32 +128,9 @@ document.querySelectorAll('.js-add-to-cart')
      const productId = button.dataset.productId; 
      // we reated the variable cart already in cart.js. So we are calling it forth. we are pushing object bec we wanted a product and a quantity. 
 
-     let matchingItem;
-     
-     cart.forEach((item) => {
-      if (productId === item.productId)
-      { matchingItem = item;
-      }
-     });
+     addToCart(productId); // we just created a function up there, to make the code code cleaner and we call it here
 
-     // we are typing matchingItem here because if we did find a matchingItem, it will be an object which is a truthy value
-     if (matchingItem) {
-      matchingItem.quantity += 1;
-     } else {
-        cart.push({
-      productId: productId,
-      quantity: 1
-     })
-     }
+     updateCartQuantity(); // we just created a function up there, to make the code code cleaner and we call it here
 
-     let cartQuantity = 0;
-
-     cart.forEach((item) => {
-      // we are adding the (item) quantity: to this variable cartQuantity. I am putting () and : to show you where they got it from. It adds all the quanitities and saves them in the cartQuantity variable
-      cartQuantity += item.quantity;
-     });
-
-// we got the class js-cart-quantity from amazon html from the div cart-quantity. we want to make the cart icon interactive
-     document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
   });
 });
