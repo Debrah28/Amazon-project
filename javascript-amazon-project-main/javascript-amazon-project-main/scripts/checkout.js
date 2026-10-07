@@ -7,15 +7,18 @@ import {formatCurrency} from "./utils/money.js";
 let cartSummaryHTML = '';
 
 // we have given it a parameter amd we have called it cartItem
-// we import products bec we want to use proctId to fetch for the other information needed on checkout page, without us recopying the data all over again.
+// we import products bec we want to use proctId to fetch for the other information needed on checkout page, without us recopying the data all over again, so .productId is from cart.js under (export let cart = [{ productId: )
 
-// each time we loop through the cart, we are going to add the html in the variable upthere(let cartSummaryHTML) so that we combine it
+// each time we loop through the cart, we are going to add the html in the variable upthere(let cartSummaryHTML) so that we combine it. the cart in (cart.forEach((cartItem) => {) is from cart.js. so cartItem was used to get the data we needed, so we opened card.js, in it we have the productId and quantity. so we used the productId to search for the products in other to get the other details like image, price,etc. so we got the productId out of the cartItem first(const productId = cartItem.productId;) 
+// so we used productId to search for the full product, so we first imported product.js and created matchingProduct to save the results
 cart.forEach((cartItem) => {
   const productId = cartItem.productId;
 
   let matchingProduct;
 
   products.forEach((product) =>{
+    // so products is from product.js, we created matchingProduct to get access to products in product.js, that is why we have a loop. we loop through the products array found in product.js. we gave it a parameter product
+
     // here we looking if the product id in product.js is equal to our product in checkout.js. If yes we have a matchingProduct we are saving it in the variable (let matchingProduct;). So the matching product will be equal the product we are looping through (products.forEach((product) =>{})
     if (product.id === productId) {
       matchingProduct = product;
@@ -25,7 +28,8 @@ cart.forEach((cartItem) => {
  // we are generating all this html by looping through our cart
 
 cartSummaryHTML +=`
- <div class="cart-item-container">
+ <div class="cart-item-container 
+ js-cart-item-container-${matchingProduct.id}">
             <div class="delivery-date">
               Delivery date: Tuesday, June 21
             </div>
@@ -116,5 +120,13 @@ document.querySelectorAll('.js-delete-link')
      const productId = link.dataset.productId;
      
      removeFromCart(productId);
+
+     // so here we used the Dom and productId to get that special class added above (js-cart-item-container-${matchingProduct.id})
+     //because we are inserting matchingProduct.id we are going to switch '' to ``
+
+    const container = document.querySelector(`.js-cart-item-container-${productId}`
+
+     );
+     container.remove(); 
   });
 });
