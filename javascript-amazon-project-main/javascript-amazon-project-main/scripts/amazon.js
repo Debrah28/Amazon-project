@@ -101,7 +101,7 @@ products.forEach((product) => {
 // so we have removed name and put id, this is because a product can have the same name but from different brands. we shall make it in a such a way that an id is unique to only one brand
 
 console.log(productsHTML);
-// the .(dot) means we are looing for a class js products grid. so it takes it an put it inside our javascript and we can change the html inside the element(product container). To do that we use the property .innerHTML and we change it to the productsHTML that we created above
+// the .(dot) means we are looking for a class js products grid. so it takes it an put it inside our javascript and we can change the html inside the element(product container). To do that we use the property.innerHTML and we change it to the productsHTML that we created above
 
 // so we are using the dom to put the html inside their respective containers 
 
