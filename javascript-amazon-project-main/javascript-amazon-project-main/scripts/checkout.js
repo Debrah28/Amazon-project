@@ -1,4 +1,4 @@
-import {cart} from "../data/cart.js";
+import {cart, removeFromCart} from "../data/cart.js";
 import {products} from "../data/products.js";
 import {formatCurrency} from "./utils/money.js";
 
@@ -43,12 +43,12 @@ cartSummaryHTML +=`
                 </div>
                 <div class="product-quantity">
                   <span>
-                    Quantity: <span class="quantity-label">${matchingProduct.quantity}</span>
+                    Quantity: <span class="quantity-label">${cartItem.quantity}</span>
                   </span>
                   <span class="update-quantity-link link-primary">
                     Update
                   </span>
-                  <span class="delete-quantity-link link-primary">
+                  <span class="delete-quantity-link link-primary js-delete-link" data-product-id="${matchingProduct.id}">
                     Delete
                   </span>
                 </div>
@@ -74,7 +74,7 @@ cartSummaryHTML +=`
                 <div class="delivery-option">
                   <input type="radio"
                     class="delivery-option-input"
-                    name="delivery-option-                    name="delivery-option-${matchingProduct.id}">
+                    name="delivery-option-${matchingProduct.id}">
                   <div>
                     <div class="delivery-option-date">
                       Wednesday, June 15
@@ -87,7 +87,7 @@ cartSummaryHTML +=`
                 <div class="delivery-option">
                   <input type="radio"
                     class="delivery-option-input"
-                    name="delivery-option-                    name="delivery-option-${matchingProduct.id}">
+                    name="delivery-option-${matchingProduct.id}">
                   <div>
                     <div class="delivery-option-date">
                       Monday, June 13
@@ -105,3 +105,16 @@ cartSummaryHTML +=`
 
 document.querySelector('.js-order-summary').innerHTML = cartSummaryHTML;
 
+// we are using All because we want to select all the delete links on the page 
+// so we create a function to toop through it. later on create an event listener using click, so that when we click, it does the function we want it to do.
+// what it shall do is in 2 steps; -remove the product from the cart and - update the html
+// how do we know which product to remove, to do that; we can attach the product ID, We are attaching it up beside its class
+document.querySelectorAll('.js-delete-link')
+.forEach((link) => {
+  link.addEventListener('click', () => {
+    // to get the product id we use the link element, dataset to access the data attribute and we are accessing .productId. So to remove a productId from the cart. we shall create a function in cart.js bec cart.js is supposed to contain all the code related to the cart.
+     const productId = link.dataset.productId;
+     
+     removeFromCart(productId);
+  });
+});
