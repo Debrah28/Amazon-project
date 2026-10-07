@@ -64,3 +64,13 @@ export function removeFromCart(productId) {
 
      saveToStorage();
 };
+
+export function updateToCart(productId) {
+     const newCart = [];
+
+     cart.forEach((cartItem) =>{
+          if (cartItem.productId !== productId) {
+               newCart.push(cartItem);
+          }
+     });
+};
