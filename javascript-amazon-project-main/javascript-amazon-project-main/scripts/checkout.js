@@ -2,6 +2,18 @@ import {cart, removeFromCart, updateToCart} from "../data/cart.js";
 import {products} from "../data/products.js";
 import {formatCurrency} from "./utils/money.js";
 
+hello(); //external library, it works only when you have data
+
+// presently we are using the dayjs external library, to do 3things -get today date, -do calculations(add 7days), -display the date in easy to read format. to know how to use dayjs, check out it documentation on google.
+// to get today date, you just call out the function dayjs(). that is why when you console.log((dayjs)); it gives you today date
+// now we want to add days to the current date. add() method takes two parameters. The 1st one is the number of times, we want to add and 2nd one is the length of time we want to add
+//.format is used to display the date in easy to read format. you can search on google the available formats when using .format with dayjs.
+// So putting comma will reflect on the date
+
+const today = dayjs();
+const deliveryDate = today.add(7, 'days');
+console.log(deliveryDate.format('dddd, MMMM D'));
+
 // so we are about to combine all the html together and put it on the page. so to do that, we are going to create a variable
 
 let cartSummaryHTML = '';
