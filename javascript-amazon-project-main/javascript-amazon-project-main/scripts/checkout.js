@@ -17,8 +17,11 @@ hello(); //external library, it works only when you have data
 const today = dayjs();
 const deliveryDate = today.add(7, 'days');
 console.log(deliveryDate.format('dddd, MMMM D'));
+ 
+// the word render means to display on the page
+function renderOrderSummary() {
 
-// so we are about to combine all the html together and put it on the page. so to do that, we are going to create a variable
+  // so we are about to combine all the html together and put it on the page. so to do that, we are going to create a variable
 
 let cartSummaryHTML = '';
 
@@ -188,8 +191,14 @@ document.querySelectorAll('.js-delivery-option')
   element.addEventListener('click', () => {  
     const {productId, deliveryOptionId} = element.dataset;
      updateDeliveryOption(productId,deliveryOptionId);
+     // we don't want to update the page using the dom, so we re-run all the code above and regenerate all the html. after we have updated the data(updateDeliveryOption(productId,deliveryOptionId);) we are going to re-run the code or call the function using;
+     renderOrderSummary();
       });
 });
+
+}
+
+renderOrderSummary();
 
 // const {productId, deliveryOptionId} = element.dataset; above is the shorthand property of  const productId = element.dataset.productId; and const deliveryOptionId = element.dataset.deliveryOptionId;
 
