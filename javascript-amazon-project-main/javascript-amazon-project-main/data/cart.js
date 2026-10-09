@@ -68,6 +68,27 @@ export function removeFromCart(productId) {
      saveToStorage();
 };
 
+// when we want to update a delivery ption, we have to know 2 things; its product and its delivery option
+//1stly we loop through the cart and find the product. Secondly we update the delivery option id of the product
+
+// the code below gives us the cartItem that matches the productId and save it in matchingItem
+ export function updateDeliveryOption(productId, deliveryOptionId) {
+     let matchingItem;
+     
+     cart.forEach((cartItem) => {
+      if (productId === cartItem.productId)
+      { matchingItem = cartItem;
+      } 
+     });
+
+     // each cartt item has a property called deliveryOptionId, so we shall just update the property below
+     matchingItem.deliveryOptionId = deliveryOptionId;
+
+     saveToStorage();
+}
+
+
+/* I am the one who tried it out
 export function updateToCart(productId) {
      const newCart = [];
 
@@ -76,4 +97,4 @@ export function updateToCart(productId) {
                newCart.push(cartItem);
           }
      });
-};
+};*/

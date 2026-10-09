@@ -1,4 +1,4 @@
-import {cart, removeFromCart, updateToCart} from "../data/cart.js";
+import {cart, removeFromCart, updateDeliveryOption, /*updateToCart*/} from "../data/cart.js";
 import {products} from "../data/products.js";
 import {formatCurrency} from "./utils/money.js";
 import {hello} from "https://unpkg.com/supersimpledev@1.0.1/hello.esm.js";
@@ -134,7 +134,8 @@ function deliveryOptionsHTML(matchingProduct,cartItem) {
     const isChecked = deliveryOption.id === cartItem.deliveryOptionId;
 
     html +=`
-    <div class="delivery-option">
+    <div class="delivery-option js-delivery-option" data-product-id="${matchingProduct.id}"
+    data-delivery-option-id="${deliveryOption.id}">
                   <input type="radio"
                     ${isChecked ? 'checked' : ''}
                     class="delivery-option-input"
@@ -180,9 +181,24 @@ document.querySelectorAll('.js-delete-link')
   });
 });
 
+// so we have written some code in cart.js(line 75), so for each selector we click, we want it to update some code(updateDeliveryOption(productId,deliveryOptionId)) but now (productId,deliveryOptionId); don't have values, we want to get them. but if we scroll up we have access to the product id(in line 141, which is matchingProduct.id) and access to the deliveryOption.id in line 134. so we want to use data attributes to attach to the elements above
+
+document.querySelectorAll('.js-delivery-option')
+.forEach((element) => {
+  element.addEventListener('click', () => {  
+    const {productId, deliveryOptionId} = element.dataset;
+     updateDeliveryOption(productId,deliveryOptionId);
+      });
+});
+
+// const {productId, deliveryOptionId} = element.dataset; above is the shorthand property of  const productId = element.dataset.productId; and const deliveryOptionId = element.dataset.deliveryOptionId;
+
+
+/* i was trying myself
+
 document.querySelectorAll('.js-update-link')
 .forEach((link) => {
   link.addEventListener('click', () => {
      const productId = link.dataset.productId;
       });
-});
+});*/
