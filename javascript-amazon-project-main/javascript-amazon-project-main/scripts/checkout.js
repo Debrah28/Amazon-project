@@ -1,7 +1,11 @@
 import {cart, removeFromCart, updateToCart} from "../data/cart.js";
 import {products} from "../data/products.js";
 import {formatCurrency} from "./utils/money.js";
+import {hello} from "https://unpkg.com/supersimpledev@1.0.1/hello.esm.js";
+import  dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
+import { deliveryOptions } from "../data/deliveryOptions.js";
 
+// so above we have copied the esm version, the esm version basically contains the export beside the code
 hello(); //external library, it works only when you have data
 
 // presently we are using the dayjs external library, to do 3things -get today date, -do calculations(add 7days), -display the date in easy to read format. to know how to use dayjs, check out it documentation on google.
@@ -39,11 +43,34 @@ cart.forEach((cartItem) => {
 
  // we are generating all this html by looping through our cart
 
+ // we are getting the delivery option Id out of the cart so that cart-item-container, delivery date should be the the same with choose a delivery option
+
+ const deliveryOptionId = cartItem.deliveryOptionId; 
+
+
+ // we create let to save the results
+
+ let deliveryOption;
+ deliveryOptions.forEach((option) => {
+  if (option.id === deliveryOptionId) {
+    deliveryOption = option;
+  }
+ });
+ 
+  
+ const today = dayjs();
+    const deliveryDate = today.add(
+      deliveryOption.deliveryDays,
+      'days'
+    ); 
+
+    const dateString = deliveryDate.format('dddd, MMMM D');
+
 cartSummaryHTML +=`
  <div class="cart-item-container 
  js-cart-item-container-${matchingProduct.id}">
             <div class="delivery-date">
-              Delivery date: Tuesday, June 21
+              Delivery date: ${dateString}
             </div>
 
             <div class="cart-item-details-grid">
@@ -74,50 +101,60 @@ cartSummaryHTML +=`
                 <div class="delivery-options-title">
                   Choose a delivery option:
                 </div>
-                <div class="delivery-option">
-                  <input type="radio" checked
-                    class="delivery-option-input"
-                    name="delivery-option-${matchingProduct.id}">
-                  <div>
-                    <div class="delivery-option-date">
-                      Tuesday, June 21
-                    </div>
-                    <div class="delivery-option-price">
-                      FREE Shipping
-                    </div>
-                  </div>
-                </div>
-                <div class="delivery-option">
-                  <input type="radio"
-                    class="delivery-option-input"
-                    name="delivery-option-${matchingProduct.id}">
-                  <div>
-                    <div class="delivery-option-date">
-                      Wednesday, June 15
-                    </div>
-                    <div class="delivery-option-price">
-                      $4.99 - Shipping
-                    </div>
-                  </div>
-                </div>
-                <div class="delivery-option">
-                  <input type="radio"
-                    class="delivery-option-input"
-                    name="delivery-option-${matchingProduct.id}">
-                  <div>
-                    <div class="delivery-option-date">
-                      Monday, June 13
-                    </div>
-                    <div class="delivery-option-price">
-                      $9.99 - Shipping
-                    </div>
-                  </div>
-                </div>
+                ${deliveryOptionsHTML(matchingProduct,cartItem)}
               </div>
             </div>
           </div>
 `;
 });
+
+// we are importing matchingProduct because we cannot use a variable out of a function. so we are passing it into a the new function, so that it works there
+
+function deliveryOptionsHTML(matchingProduct,cartItem) {
+  // here we created a variable to save the result
+  let html = ''; 
+
+  deliveryOptions.forEach((deliveryOption) => { 
+    const today = dayjs();
+    const deliveryDate = today.add(
+      deliveryOption.deliveryDays,
+      'days'
+    ); 
+
+    const dateString = deliveryDate.format('dddd, MMMM D');
+    
+    // we are using itenary operator below, how it works is; if the 1st part returns truth, the value is whatever after the question mark, if the first part is false, then the value is what that is after the colon(:). it is like an if statement. Just that we can store it inside a variable
+    const priceString = deliveryOption.priceCents === 0
+    ? 'FREE'
+    : `$${formatCurrency(deliveryOption.priceCents)} -`;
+    //any time we loop through, we add the html below to the result above (let html= '';)
+
+    // so we noticed thatthe selectors were empty, so we want the delivery option saved in the cart to be checked. so we created an attribute checked. however we don't want every selector to be checked, we only want it to be checked if it matches the delivery options id that is saved in the cart.
+
+    const isChecked = deliveryOption.id === cartItem.deliveryOptionId;
+
+    html +=`
+    <div class="delivery-option">
+                  <input type="radio"
+                    ${isChecked ? 'checked' : ''}
+                    class="delivery-option-input"
+                    name="delivery-option-${matchingProduct.id}">
+                  <div>
+                    <div class="delivery-option-date">
+                      ${dateString}
+                    </div>
+                    <div class="delivery-option-price">
+                      ${priceString} Shipping
+                    </div>
+                  </div>
+                </div>
+                `
+
+  });
+  // after we created the html, we are going to return it from this function
+
+  return html;
+}
 
 document.querySelector('.js-order-summary').innerHTML = cartSummaryHTML;
 
