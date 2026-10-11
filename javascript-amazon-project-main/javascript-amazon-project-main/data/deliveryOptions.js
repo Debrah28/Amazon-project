@@ -12,3 +12,17 @@
   priceCents: 999
  }
 ];
+
+ export function getDeliveryOption(deliveryOptionId) {
+  let deliveryOption;
+
+ deliveryOptions.forEach((option) => {
+  if (option.id === deliveryOptionId) {
+    deliveryOption = option;
+  }
+ }); 
+
+ // we are giving it a default value, if we don't find a deliveryOption. we want to use the default operator OR (||)
+ return deliveryOption || deliveryOptions[0] ;
+  
+}

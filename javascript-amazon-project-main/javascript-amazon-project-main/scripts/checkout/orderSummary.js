@@ -1,9 +1,9 @@
 import {cart, removeFromCart, updateDeliveryOption, /*updateToCart*/} from "../../data/cart.js";
-import {products} from "../../data/products.js";
+import {products, getProduct} from "../../data/products.js";
 import {formatCurrency} from "../utils/money.js";
 import {hello} from "https://unpkg.com/supersimpledev@1.0.1/hello.esm.js";
 import  dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
-import { deliveryOptions } from "../../data/deliveryOptions.js"; 
+import { deliveryOptions, getDeliveryOption} from "../../data/deliveryOptions.js"; 
 
 // so above we have copied the esm version, the esm version basically contains the export beside the code
 hello(); //external library, it works only when you have data
@@ -33,32 +33,34 @@ let cartSummaryHTML = '';
 cart.forEach((cartItem) => {
   const productId = cartItem.productId;
 
-  let matchingProduct;
+  // since we are no more updating this variable, we shall change from let to const
+  const matchingProduct = getProduct(productId);
 
-  products.forEach((product) =>{
+   /* products.forEach((product) =>{
     // so products is from product.js, we created matchingProduct to get access to products in product.js, that is why we have a loop. we loop through the products array found in product.js. we gave it a parameter product
 
     // here we looking if the product id in product.js is equal to our product in checkout.js. If yes we have a matchingProduct we are saving it in the variable (let matchingProduct;). So the matching product will be equal the product we are looping through (products.forEach((product) =>{})
     if (product.id === productId) {
       matchingProduct = product;
     }
-  });
+  }); */
 
- // we are generating all this html by looping through our cart
+//we are generating all this html by looping through our cart
 
  // we are getting the delivery option Id out of the cart so that cart-item-container, delivery date should be the the same with choose a delivery option
 
  const deliveryOptionId = cartItem.deliveryOptionId; 
 
+ const deliveryOption = getDeliveryOption(deliveryOptionId);
 
  // we create let to save the results
 
- let deliveryOption;
+ /*let deliveryOption;
  deliveryOptions.forEach((option) => {
   if (option.id === deliveryOptionId) {
     deliveryOption = option;
   }
- });
+ }); */
  
   
  const today = dayjs();
