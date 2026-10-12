@@ -4,9 +4,10 @@ import {formatCurrency} from "../utils/money.js";
 import {hello} from "https://unpkg.com/supersimpledev@1.0.1/hello.esm.js";
 import  dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
 import { deliveryOptions, getDeliveryOption} from "../../data/deliveryOptions.js"; 
+import { renderPaymentSummary } from "./paymentSummary.js";
 
 // so above we have copied the esm version, the esm version basically contains the export beside the code
-hello(); //external library, it works only when you have data
+/*hello(); //external library, it works only when you have data
 
 // presently we are using the dayjs external library, to do 3things -get today date, -do calculations(add 7days), -display the date in easy to read format. to know how to use dayjs, check out it documentation on google.
 // to get today date, you just call out the function dayjs(). that is why when you console.log((dayjs)); it gives you today date
@@ -16,9 +17,10 @@ hello(); //external library, it works only when you have data
 
 const today = dayjs();
 const deliveryDate = today.add(7, 'days');
-console.log(deliveryDate.format('dddd, MMMM D'));
+console.log(deliveryDate.format('dddd, MMMM D'));*/
  
 // the word render means to display on the page
+
 export function renderOrderSummary() {
 
   // so we are about to combine all the html together and put it on the page. so to do that, we are going to create a variable
@@ -183,6 +185,8 @@ document.querySelectorAll('.js-delete-link')
 
      );
      container.remove(); 
+     // so after clicking delete, we regenerate our html to update our payment section, that is why we have that code below;
+     renderPaymentSummary();
   });
 });
 
@@ -195,9 +199,9 @@ document.querySelectorAll('.js-delivery-option')
      updateDeliveryOption(productId,deliveryOptionId);
      // we don't want to update the page using the dom, so we re-run all the code above and regenerate all the html. after we have updated the data(updateDeliveryOption(productId,deliveryOptionId);) we are going to re-run the code or call the function using;
      renderOrderSummary();
+     renderPaymentSummary();
       });
 });
-
 }
 
 
