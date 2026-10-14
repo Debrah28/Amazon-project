@@ -2,7 +2,12 @@
 // we are getting the cart from local storage, so that we do not use the default values.
 // getItem takes one string and it is the name of what we saved ealier. Remember localStorage can only save strings, so we have to convert it back to an array. To do that we use the code JSON.parse
 
-export let cart = JSON.parse(localStorage.getItem('cart'));
+export let cart;
+loadFromStorage();
+ 
+// so u had to run this function atleast once, that is why we called it above.
+export function loadFromStorage() {
+     cart = JSON.parse(localStorage.getItem('cart'));
 // so we created this because, if we just start the website we shall have nothing in the cart and it will give us null, to solve that we use the if statement and input a default value. so if our cart is empty, it gives us a default value
 
 if (!cart) {
@@ -17,7 +22,7 @@ if (!cart) {
      deliveryOptionId: '2'
 }];
 };
- 
+}
 
 //setItem takes two strings. The first string is the name we want to save and the second is the data we want to save. NOTE local storage can only save strings. so to save our cart we convert it into a string first using JSON
 function saveToStorage(params) {
