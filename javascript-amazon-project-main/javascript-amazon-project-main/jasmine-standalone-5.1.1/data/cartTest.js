@@ -1,5 +1,5 @@
 // we want to test the addToCart function.
-import { addToCart, cart, loadFromStorage, updateDeliveryOption} from "../../javascript-amazon-project-main/data/cart.js";
+import { addToCart, cart, loadFromStorage} from "../../data/cart.js";
 
 describe('test suite: addToCart', () => {
   // line 40 of cart.js

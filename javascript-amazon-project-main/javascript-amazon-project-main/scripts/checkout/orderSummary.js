@@ -189,7 +189,7 @@ document.querySelectorAll('.js-delete-link')
 
      );
      container.remove(); 
-     // so after clicking delete, we regenerate our html to update our payment section, that is why we have that code below;
+     // so after clicking delete, we regenerate our html to update our payment section, that is why we have that code below; so we had to put this code aswell in test folder in orerSummaryTest.js , for the delete test
      renderPaymentSummary();
   });
 });

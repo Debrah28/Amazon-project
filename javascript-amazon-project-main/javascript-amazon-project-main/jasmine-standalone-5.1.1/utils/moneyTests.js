@@ -1,4 +1,4 @@
-import { formatCurrency } from "../../javascript-amazon-project-main/scripts/utils/money.js";
+import { formatCurrency } from "../../scripts/utils/money.js";
 // describe is used by Jasmine, in order to create a test suite. a string is used to give the test suite a name.
 // it() is another function provided by Jasmine, it is used to create a test. to name our test, we give it a string.
 // to put some code in Jasmine, we give it a second parameter, that is a function

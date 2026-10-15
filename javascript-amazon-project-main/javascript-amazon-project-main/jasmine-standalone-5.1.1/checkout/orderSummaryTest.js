@@ -1,5 +1,6 @@
-import {loadFromStorage, cart} from "../../javascript-amazon-project-main/data/cart.js";
-import { renderOrderSummary } from "../../javascript-amazon-project-main/scripts/checkout/orderSummary.js";
+import {loadFromStorage, cart} from "../../data/cart.js";
+import { renderOrderSummary } from "../../scripts/checkout/orderSummary.js";
+
 
 describe('test suite: renderOrderSummary', () => {
 // renderOrderSummary creates a part of a page. So when testing, we hav to test 2 things; - how the page looks and how the page behaves.
