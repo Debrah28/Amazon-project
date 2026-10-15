@@ -27,10 +27,16 @@
 
   <script src="utils/moneyTests.js" type="module"></script>
   <script src="data/cartTest.js" type="module"></script>
+  <script src="checkout/orderSummaryTest.js" type="module"></script>
  
 
 </head>
 
 <body>
+  <!--the reason we are using div, is because div is a container. so we shall create the element js-order-summary and put in the div.
+  we are using div container because, when we create elements in our test we don't want to modify the entire body because, the body might contain our test results from jasmine
+  To make it clear, it is a container for all of our test code ("js-test-container")-->
+
+  <div class="js-test-container"></div>
 </body>
 </html>

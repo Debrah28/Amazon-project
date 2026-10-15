@@ -60,8 +60,6 @@ describe('test suite: addToCart', () => {
     expect(cart[0].quantity).toEqual(1);
   });
   });
-  // so when adding an exsiting product, we a cart quantity, so adding another one increase it from 1 to 2
-
 
 // So spyOn() has another feature that is, it recrds every time a method is used. wee want to make sure that addToCart saves to localStorage at the end. So in our test setItem is mocked, so we can't check what is inside localStorage. So we shall check if addToCart calls setItem at some point. So we shall use the function expect
 
