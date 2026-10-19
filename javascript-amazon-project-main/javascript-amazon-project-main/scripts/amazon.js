@@ -47,6 +47,9 @@ products.forEach((product) => {
   //each time we go through the loop, we shall add the html string up there (let productsHTML = '';)
   // productsHTML =  productsHTML + is same as productsHTML +=
   //This is called accumulator pattern(we loop throgh an array and each time we are adding to the a result).
+
+  // we were calculating the product price directly inside the html, so we moved it to products.js line 42. check line 73 of amazon.js
+  
      productsHTML =  productsHTML + `
    <div class="product-container">
           <div class="product-image-container">
@@ -60,14 +63,15 @@ products.forEach((product) => {
 
           <div class="product-rating-container">
             <img class="product-rating-stars"
-              src="images/ratings/rating-${product.rating.stars * 10}.png">
+              src="${product.getStarsUrl()}">
             <div class="product-rating-count link-primary">
                ${product.rating.count}
             </div>
           </div>     
+          
 
           <div class="product-price">
-           $${formatCurrency(product.priceCents)}
+          ${product.getPrice()}
           </div>
 
           <div class="product-quantity-container">

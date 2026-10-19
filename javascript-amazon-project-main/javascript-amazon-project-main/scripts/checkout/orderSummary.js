@@ -74,6 +74,9 @@ cart.forEach((cartItem) => {
     const dateString = deliveryDate.format('dddd, MMMM D');
 
     // for each product in the cart we creat a class "cart-item-container" we created the class js-cart-item-container, for testing purposes(orderSummaryTest.js)
+
+    // // we were calculating the product price directly inside the html; $${formatCurrency(matchingProduct.priceCents)} , so we moved it to products.js line 42. check line 97 of orderSummary.js
+
 cartSummaryHTML +=`
  <div class="cart-item-container 
  js-cart-item-container
@@ -91,7 +94,7 @@ cartSummaryHTML +=`
                  ${matchingProduct.name}
                 </div>
                 <div class="product-price">
-                 $${formatCurrency(matchingProduct.priceCents)}
+                 ${matchingProduct.getPrice()}
                 </div>
                 <div class="product-quantity
                 js-product-quantity-${matchingProduct.id}">

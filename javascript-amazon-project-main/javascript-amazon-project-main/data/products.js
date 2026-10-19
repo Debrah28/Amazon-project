@@ -1,3 +1,5 @@
+import { formatCurrency } from "../scripts/utils/money.js";
+
 export function getProduct(productId) {
   let matchingProduct;
 
@@ -11,7 +13,57 @@ export function getProduct(productId) {
 
   return matchingProduct;
 };
+
+class Product {
+  id;
+  image;
+  name;
+  rating;
+  priceCents;
+
+  // whenever we generate the object, it is going to run this constructor, so we don't have to manually access the products outside the class. E.g is below;
+  /* const product1 = new Product ();
+      product1.id ='';
+      product1.name ='';
+      console.log(product1); */
+  constructor(productDetails) {
+    // we have productDetails.id; because the constructor has control over our variable below; we added one product inside the brackets of new Product(), so we are having access to the id, image and so on, using the constructor parameter(productDetails)
+    this.id = productDetails.id;
+    this.image = productDetails.image;
+    this.name = productDetails.name;
+    this.rating = productDetails.rating;
+    this.priceCents = productDetails.priceCents;
+  }
+
+  getStarsUrl() {
+   return `images/ratings/rating-${this.rating.stars * 10}.png`;
+  }
+
+  getPrice() {
+    return ` $${formatCurrency(this.priceCents)}`;
+  }
+}
+/*const product1 = new Product({
+    id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
+    image: "images/products/athletic-cotton-socks-6-pairs.jpg",
+    name: "Black and Gray Athletic Cotton Socks - 6 Pairs",
+    rating: {
+      stars: 4.5,
+      count: 87
+    },
+    priceCents: 1090,
+     keywords: [
+      "socks",
+      "sports",
+      "apparel"
+    ]
+  });
+console.log(product1); 
+it was just an example*/
+
 export const products = [
+  // Instead of having an array of regular objects, we are going to convert each of these objets into Product class. One way we would have done it infront of each object we put new Product {{id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",image: "images/products/athletic-cotton-socks-6-pairs.jpg",}. 
+  // BUT we have to do that for each object, it will be repetitive and long. so the best way is to loop through the array and se code to convert through each of the objects.
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
     image: "images/products/athletic-cotton-socks-6-pairs.jpg",
@@ -670,4 +722,12 @@ export const products = [
       "mens"
     ]
   }
-];
+].map( (productDetails) => {
+  return new Product(productDetails)
+// so we have converted from regular objects, into the product class
+});
+//console.log(products);
+// so .map is an array method, so it basically loops through an array and for each value, it runs a function. so with the map brackets, we are going to give it a function for it to run for each value.
+// we shall give the function a parameter. so this parameter is each value in the array. so it shall take each object, save it into the parameter and run the fuction and we shall now convert the object, what was stored in the parameter into a class.
+// so .map creates a new array, so whatsoever we return enters the new array. Example;
+// product1, => function => new Product(product1), and so on.
