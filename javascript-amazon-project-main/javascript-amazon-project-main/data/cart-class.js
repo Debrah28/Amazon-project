@@ -1,21 +1,22 @@
 // so we it comes to class, they have a slightly different syntax than objescts. so while creating your property name, you equal it to your value and use semicolon at the end to add more classes. but objects, your property name is colon(:) to your value and use comma at the end to add more objects.
 class Cart {
    cartItems = undefined; //this is a property
-   localStorageKey = undefined;
+   // putting # infront makes the property private
+   #localStorageKey = undefined;
 // localStorageKey = undefined; shortcut is; localStorageKey; This only happens when your property is equal to undefined.
 
 
    constructor(localStorageKey) {
      // each object that we create is going to run the constructor. So we only need one of each of .localStorageKey and .loadFromStorage.Since we are using one line, we put 'this' because the object we create is not going to be called 'cart' or 'businessCart' all the time. NB: 'this' poinsts to the object that we generate
      // to save a value inside the parameter of constructor. look at line 93
-     this.localStorageKey = localStorageKey;
-     this.loadFromStorage();
+     this.#localStorageKey = localStorageKey;
+     this.#loadFromStorage();
 
    }
+    // putting # infront makes the method private
+   #loadFromStorage() {//this is a method
    
-   loadFromStorage() {//this is a method
-   
-     this.cartItems = JSON.parse(localStorage.getItem(this.localStorageKey));
+     this.cartItems = JSON.parse(localStorage.getItem(this.#localStorageKey));
 // since localStorageKey doesn't exsist anymore. To fix this, we shall save it in a property(line 4). so inside the method above, we shall switch it to this.localStorageKey. So 'this' is going to point out to the object that we generate then .localStorageKey access thproperty above (line 4)
 
 if (!this.cartItems) {
@@ -34,7 +35,7 @@ if (!this.cartItems) {
 
 
  saveToStorage() {
-     localStorage.setItem(this.localStorageKey, JSON.stringify(this.cartItems));
+     localStorage.setItem(this.#localStorageKey, JSON.stringify(this.cartItems));
      // instead of using the variable localStorageKey, we shall use the property this.localStorageKey
 }
 
