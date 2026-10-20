@@ -42,24 +42,28 @@ class Product {
   getPrice() {
     return ` $${formatCurrency(this.priceCents)}`;
   }
+  extraInfoHTML() {
+    // we added extraInfoHTML here because, just it being in the clothing class will cause an error, that is why is we returned it into an empty string.  
+    return '';
+  }
 }
-/*const product1 = new Product({
-    id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
-    image: "images/products/athletic-cotton-socks-6-pairs.jpg",
-    name: "Black and Gray Athletic Cotton Socks - 6 Pairs",
-    rating: {
-      stars: 4.5,
-      count: 87
-    },
-    priceCents: 1090,
-     keywords: [
-      "socks",
-      "sports",
-      "apparel"
-    ]
-  });
-console.log(product1); 
-it was just an example*/
+// Doing inheritance. So Clothing class will inherit all the propertiesand methods of Product class
+class Clothing extends Product {
+  sizeChartLink; // we use a constructor to set the value
+  constructor(productDetails) {
+// when we create the clothing, we set the object into productDetails and then we can use it, to set the properties up there. super() calls the constructor of the parent class
+    super(productDetails);
+    this.sizeChartLink = productDetails.sizeChartLink;
+  }
+  // we are creating a new method on the clothing class that will generate the html that we need.
+  extraInfoHTML() {
+    // we are returning some html, href, tells the computer which page it should open when the click the link. so it shall open the sizeChartLink which is the image. so target="_blank" means open link in a new tab.
+    //super.extraInfoHTML(); this calls the parent class method, if you still want to use it. bec line 59 has override for line 45
+    return `
+    <a href = "${this.sizeChartLink}" target="_blank">
+    Size chart</a>`;
+  } 
+}
 
 export const products = [
   // Instead of having an array of regular objects, we are going to convert each of these objets into Product class. One way we would have done it infront of each object we put new Product {{id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",image: "images/products/athletic-cotton-socks-6-pairs.jpg",}. 
@@ -723,11 +727,54 @@ export const products = [
     ]
   }
 ].map( (productDetails) => {
-  return new Product(productDetails)
+  if (productDetails.type === 'clothing') {
+    return new Clothing(productDetails);
+  }
+  return new Product(productDetails);
 // so we have converted from regular objects, into the product class
 });
+// we using the type property, to decide which class to use.
 //console.log(products);
 // so .map is an array method, so it basically loops through an array and for each value, it runs a function. so with the map brackets, we are going to give it a function for it to run for each value.
 // we shall give the function a parameter. so this parameter is each value in the array. so it shall take each object, save it into the parameter and run the fuction and we shall now convert the object, what was stored in the parameter into a class.
 // so .map creates a new array, so whatsoever we return enters the new array. Example;
 // product1, => function => new Product(product1), and so on.
+
+
+/*const product1 = new Product({
+    id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
+    image: "images/products/athletic-cotton-socks-6-pairs.jpg",
+    name: "Black and Gray Athletic Cotton Socks - 6 Pairs",
+    rating: {
+      stars: 4.5,
+      count: 87
+    },
+    priceCents: 1090,
+     keywords: [
+      "socks",
+      "sports",
+      "apparel"
+    ]
+  });
+console.log(product1); 
+it was just an example*/
+
+// this practice code for line 67
+/* const tshirt = new Clothing({id: "83d4ca15-0f35-48f5-b7a3-1ea210004f2e",
+    image: "images/products/adults-plain-cotton-tshirt-2-pack-teal.jpg",
+    name: "Adults Plain Cotton T-Shirt - 2 Pack",
+    rating: {
+      stars: 4.5,
+      count: 56
+    },
+    priceCents: 799,
+    keywords: [
+      "tshirts",
+      "apparel",
+      "mens"
+    ],
+    type: "clothing",
+    sizeChartLink: "images/clothing-size-chart.png"
+  });
+  console.log(tshirt);
+  console.log(tshirt.getPrice());*/

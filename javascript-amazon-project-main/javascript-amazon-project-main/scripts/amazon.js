@@ -49,7 +49,7 @@ products.forEach((product) => {
   //This is called accumulator pattern(we loop throgh an array and each time we are adding to the a result).
 
   // we were calculating the product price directly inside the html, so we moved it to products.js line 42. check line 73 of amazon.js
-  
+
      productsHTML =  productsHTML + `
    <div class="product-container">
           <div class="product-image-container">
@@ -88,6 +88,8 @@ products.forEach((product) => {
               <option value="10">10</option>
             </select>
           </div>
+          
+          ${product.extraInfoHTML()}
 
           <div class="product-spacer"></div>
 
@@ -103,9 +105,11 @@ products.forEach((product) => {
         </div>`;
         
 });
+// we put this ${product.extraInfoHTML()} in line 92 because, amazon. js is related to our front page. we want it to display the html we have worked in product.js line 59, to be able to access the link
+
 // so we have removed name and put id, this is because a product can have the same name but from different brands. we shall make it in a such a way that an id is unique to only one brand
 
-console.log(productsHTML);
+//console.log(productsHTML);
 // the .(dot) means we are looking for a class js products grid. so it takes it an put it inside our javascript and we can change the html inside the element(product container). To do that we use the property.innerHTML and we change it to the productsHTML that we created above
 
 // so we are using the dom to put the html inside their respective containers 
