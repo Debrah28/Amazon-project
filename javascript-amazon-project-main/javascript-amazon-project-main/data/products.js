@@ -64,6 +64,32 @@ class Clothing extends Product {
     Size chart</a>`;
   } 
 }
+/*const date = new Date ();
+console.log(date);
+console.log(date.toLocaleTimeString());
+this is the built in date class
+
+console.log(this);
+
+const object2 = {
+this here is undefined because object2 hasn't been created, so this has no object to point it to.
+  a: 2,
+  b: this.a
+};  
+
+function logThis() {
+  console.log(this);
+}
+logThis(); // .call changes this to whatever we want. we have changed it to 'hello'
+logThis.call('hello');
+// inside a regular function, this = undefined, but inside a method this points to the outer object and arrow functions don't change the value of this 
+this 
+const object3 = {
+  method: () => {
+    console.log(this);  
+  }
+};
+object3.method(); */
 
 export const products = [
   // Instead of having an array of regular objects, we are going to convert each of these objets into Product class. One way we would have done it infront of each object we put new Product {{id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",image: "images/products/athletic-cotton-socks-6-pairs.jpg",}. 
