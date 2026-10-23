@@ -91,7 +91,35 @@ const object3 = {
 };
 object3.method(); */
 
-export const products = [
+export let products = [];
+// so we have saved function renderProdutsGrid(amazon.js, line 49) in a parameter called fun
+export function loadProducts(fun) {
+  const xhr = new XMLHttpRequest();
+
+  xhr.addEventListener('load',() => {
+    // we are converting it back into a JSON object, bec on the console, it is a string/
+    // WE want to replace the empty array[] with what we loaded from the backend. to that is products=JSON.parse(xhr.response);
+   products = JSON.parse(xhr.response).map( (productDetails) => {
+  if (productDetails.type === 'clothing') {
+    return new Clothing(productDetails);
+  }
+  return new Product(productDetails);
+// so we want to converte the json objects, into a product class
+}); 
+  //console.log(products); we want it display this string instead, to show that it is working
+  console.log('load products');
+
+  // so we created a function in amazon.js, line 49, saved it in the parameter fun, so after we load the response, we are going to runS the function(Fun();)
+  fun();
+  });
+
+  xhr.open('GET', 'https://supersimplebackend.dev/products');
+  xhr.send();
+} // we want to load products from the backend
+  //loadProducts(); 
+
+
+/*export const products = [
   // Instead of having an array of regular objects, we are going to convert each of these objets into Product class. One way we would have done it infront of each object we put new Product {{id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",image: "images/products/athletic-cotton-socks-6-pairs.jpg",}. 
   // BUT we have to do that for each object, it will be repetitive and long. so the best way is to loop through the array and se code to convert through each of the objects.
   {
@@ -758,14 +786,13 @@ export const products = [
   }
   return new Product(productDetails);
 // so we have converted from regular objects, into the product class
-});
+}); */
 // we using the type property, to decide which class to use.
 //console.log(products);
 // so .map is an array method, so it basically loops through an array and for each value, it runs a function. so with the map brackets, we are going to give it a function for it to run for each value.
 // we shall give the function a parameter. so this parameter is each value in the array. so it shall take each object, save it into the parameter and run the fuction and we shall now convert the object, what was stored in the parameter into a class.
 // so .map creates a new array, so whatsoever we return enters the new array. Example;
 // product1, => function => new Product(product1), and so on.
-
 
 /*const product1 = new Product({
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",

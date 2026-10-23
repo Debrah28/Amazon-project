@@ -1,5 +1,5 @@
 import {cart, addToCart} from "../data/cart.js"; 
-import { products } from "../data/products.js"; 
+import { products, loadProducts} from "../data/products.js"; 
 import { formatCurrency } from "./utils/money.js";
 
 /*const products = [{
@@ -41,105 +41,113 @@ import { formatCurrency } from "./utils/money.js";
   this was commented out because, we shall no longer use it since we have our product.js, so the code will run through the products in products.js and later on come to amazon.js, so that it can be publish on the website
   So the java sript file creates all the products and the second throug the products and creates all the html*/
 
-let productsHTML = '';
-//we to products from products.js
-products.forEach((product) => {
-  //each time we go through the loop, we shall add the html string up there (let productsHTML = '';)
-  // productsHTML =  productsHTML + is same as productsHTML +=
-  //This is called accumulator pattern(we loop throgh an array and each time we are adding to the a result).
+  loadProducts(renderProductsGrid); // line 96 in products.js, we using backend to load the products
 
-  // we were calculating the product price directly inside the html, so we moved it to products.js line 42. check line 73 of amazon.js
+  // we are creating a funtion for let productsHTML bec loadProducts is asynchronous, so let won't wait for ladProducts to fetch it from the backend. so we create a function so that it can wait in product.js
+  
+  // so we want to put function inside loadProducts() using a parameter. NB: functions are values and we can use them as parameter
+  function renderProductsGrid() {
 
-     productsHTML =  productsHTML + `
-   <div class="product-container">
-          <div class="product-image-container">
-            <img class="product-image"
-              src="${product.image}">
-          </div>
+  let productsHTML = '';
+  //we to products from products.js
+  products.forEach((product) => {
+    //each time we go through the loop, we shall add the html string up there (let productsHTML = '';)
+    // productsHTML =  productsHTML + is same as productsHTML +=
+    //This is called accumulator pattern(we loop throgh an array and each time we are adding to the a result).
 
-          <div class="product-name limit-text-to-2-lines">
-            ${product.name}
-          </div>
+    // we were calculating the product price directly inside the html, so we moved it to products.js line 42. check line 73 of amazon.js
 
-          <div class="product-rating-container">
-            <img class="product-rating-stars"
-              src="${product.getStarsUrl()}">
-            <div class="product-rating-count link-primary">
-               ${product.rating.count}
+      productsHTML =  productsHTML + `
+    <div class="product-container">
+            <div class="product-image-container">
+              <img class="product-image"
+                src="${product.image}">
             </div>
-          </div>     
+
+            <div class="product-name limit-text-to-2-lines">
+              ${product.name}
+            </div>
+
+            <div class="product-rating-container">
+              <img class="product-rating-stars"
+                src="${product.getStarsUrl()}">
+              <div class="product-rating-count link-primary">
+                ${product.rating.count}
+              </div>
+            </div>     
+            
+
+            <div class="product-price">
+            ${product.getPrice()}
+            </div>
+
+            <div class="product-quantity-container">
+              <select>
+                <option selected value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+              </select>
+            </div>
+            
+            ${product.extraInfoHTML()}
+
+            <div class="product-spacer"></div>
+
+            <div class="added-to-cart">
+              <img src="images/icons/checkmark.png">
+              Added
+            </div>
+
+            <button class="add-to-cart-button button-primary js-add-to-cart"
+            data-product-id="${product.id}">
+              Add to Cart
+            </button>
+          </div>`;
           
-
-          <div class="product-price">
-          ${product.getPrice()}
-          </div>
-
-          <div class="product-quantity-container">
-            <select>
-              <option selected value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
-              <option value="10">10</option>
-            </select>
-          </div>
-          
-          ${product.extraInfoHTML()}
-
-          <div class="product-spacer"></div>
-
-          <div class="added-to-cart">
-            <img src="images/icons/checkmark.png">
-            Added
-          </div>
-
-          <button class="add-to-cart-button button-primary js-add-to-cart"
-          data-product-id="${product.id}">
-            Add to Cart
-          </button>
-        </div>`;
-        
-});
-// we put this ${product.extraInfoHTML()} in line 92 because, amazon. js is related to our front page. we want it to display the html we have worked in product.js line 59, to be able to access the link
-
-// so we have removed name and put id, this is because a product can have the same name but from different brands. we shall make it in a such a way that an id is unique to only one brand
-
-//console.log(productsHTML);
-// the .(dot) means we are looking for a class js products grid. so it takes it an put it inside our javascript and we can change the html inside the element(product container). To do that we use the property.innerHTML and we change it to the productsHTML that we created above
-
-// so we are using the dom to put the html inside their respective containers 
-
-document.querySelector('.js-products-grid').innerHTML = productsHTML;
-
-// so we are keeping updateCartQuantity here instead, because the function instead helps in updating the webpage rather than managing the cart. So we are keeping the function inside thi file for now
-function updateCartQuantity() {
-   let cartQuantity = 0;
-
-     cart.forEach((cartItem) => {
-      // we are adding the (item) quantity: to this variable cartQuantity. I am putting () and : to show you where they got it from. It adds all the quanitities and saves them in the cartQuantity variable
-      cartQuantity += cartItem.quantity;
-     });
-
-// we got the class js-cart-quantity from amazon html from the div cart-quantity. we want to make the cart icon interactive
-     document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
-}
-
-document.querySelectorAll('.js-add-to-cart')
-// we loop through each of the buttons, so inside the forEach we give it a  function and a parameter. so the parameter is the button element, so for each of the buttons, we add an event listener, so that it does something when click the button add to cart.
-//'click' is the event we want to listen for and now a function we want to run when we click this button.  
-.forEach((button) => {
-  button.addEventListener('click', () => {
-     const productId = button.dataset.productId; 
-     // we reated the variable cart already in cart.js. So we are calling it forth. we are pushing object bec we wanted a product and a quantity. 
-
-     addToCart(productId); // we just created a function up there, to make the code code cleaner and we call it here
-
-     updateCartQuantity(); // we just created a function up there, to make the code code cleaner and we call it here
-
   });
-});
+  // we put this ${product.extraInfoHTML()} in line 92 because, amazon. js is related to our front page. we want it to display the html we have worked in product.js line 59, to be able to access the link
+
+  // so we have removed name and put id, this is because a product can have the same name but from different brands. we shall make it in a such a way that an id is unique to only one brand
+
+  //console.log(productsHTML);
+  // the .(dot) means we are looking for a class js products grid. so it takes it an put it inside our javascript and we can change the html inside the element(product container). To do that we use the property.innerHTML and we change it to the productsHTML that we created above
+
+  // so we are using the dom to put the html inside their respective containers 
+
+  document.querySelector('.js-products-grid').innerHTML = productsHTML;
+
+  // so we are keeping updateCartQuantity here instead, because the function instead helps in updating the webpage rather than managing the cart. So we are keeping the function inside thi file for now
+  function updateCartQuantity() {
+    let cartQuantity = 0;
+
+      cart.forEach((cartItem) => {
+        // we are adding the (item) quantity: to this variable cartQuantity. I am putting () and : to show you where they got it from. It adds all the quanitities and saves them in the cartQuantity variable
+        cartQuantity += cartItem.quantity;
+      });
+
+  // we got the class js-cart-quantity from amazon html from the div cart-quantity. we want to make the cart icon interactive
+      document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
+  }
+
+  document.querySelectorAll('.js-add-to-cart')
+  // we loop through each of the buttons, so inside the forEach we give it a  function and a parameter. so the parameter is the button element, so for each of the buttons, we add an event listener, so that it does something when click the button add to cart.
+  //'click' is the event we want to listen for and now a function we want to run when we click this button.  
+  .forEach((button) => {
+    button.addEventListener('click', () => {
+      const productId = button.dataset.productId; 
+      // we reated the variable cart already in cart.js. So we are calling it forth. we are pushing object bec we wanted a product and a quantity. 
+
+      addToCart(productId); // we just created a function up there, to make the code code cleaner and we call it here
+
+      updateCartQuantity(); // we just created a function up there, to make the code code cleaner and we call it here
+
+    });
+  });
+ };
