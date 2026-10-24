@@ -86,10 +86,23 @@ export function removeFromCart(productId) {
       } 
      });
 
-     // each cartt item has a property called deliveryOptionId, so we shall just update the property below
      matchingItem.deliveryOptionId = deliveryOptionId;
 
      saveToStorage();
+}
+
+
+// here we want to show you why we use promises instead of callbacks, we are loading cart from the backend. we got the code from products.js
+export function loadCart(fun) {
+  const xhr = new XMLHttpRequest();
+
+  xhr.addEventListener('load',() => {
+     console.log(xhr.response);
+  fun();
+  });
+
+  xhr.open('GET', 'https://supersimplebackend.dev/cart');
+  xhr.send();
 }
 
 
