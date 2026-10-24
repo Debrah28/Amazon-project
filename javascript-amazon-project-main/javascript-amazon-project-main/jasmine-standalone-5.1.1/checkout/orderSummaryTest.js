@@ -1,5 +1,6 @@
 import {loadFromStorage, cart} from "../../data/cart.js";
 import { renderOrderSummary } from "../../scripts/checkout/orderSummary.js";
+import { loadProducts  } from "../../data/products.js";
 
 
 describe('test suite: renderOrderSummary', () => {
@@ -8,6 +9,13 @@ describe('test suite: renderOrderSummary', () => {
 const productId1 = "e43638ce-6aa0-4b85-b27f-e1d07eb678c6";
   const productId2 = "15b6fc6f-327a-4ec4-896f-486349e85a3d";
   // we put the variables oustide so that the 2nd test can use it, if not it won't work. bec it was in a scope(beforeEach makes a scope)
+
+  beforeAll((done)=> {
+    loadProducts(() => {
+      done();
+    }); 
+  });// it is asychronous, it just sends a request to a backend but it doesn't wait for it to come back. it sends the request and continue with the rest of the text code, but still we haven't received a response yet. so products is still an empty array[]. so to solve this issue, we have to wait for loadProducts to finish first then it continues with the rest
+    // Jasmine has a feature for waiting for some code to finish, which is called done() funtion
 
 beforeEach(() => {
   spyOn(localStorage, 'setItem');
@@ -33,7 +41,7 @@ beforeEach(() => {
     loadFromStorage();
 
     // this renderOrderSummary(); makes it display on the test page
-    renderOrderSummary();
+    renderOrderSummary(); // this create the cart on the checkout page 
 
 });
 
