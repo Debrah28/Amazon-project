@@ -92,6 +92,35 @@ const object3 = {
 object3.method(); */
 
 export let products = [];
+
+ export function loadProductsFetch() { // this makes an http request
+  const promise = fetch(
+    'https://supersimplebackend.dev/products'
+  ).then((response) => {
+//console.log(response);to get the data attach toresponse we type,response.json()
+// now response.json() is asynchronous, it returns a promise, so we need to wait for this promise to finish before we continue to the next step. To do that we return the promise(response.json)
+return response.json();
+  }).then((productsData) => {
+    //console.log(productsData);
+    products = productsData.map((productDetails) => {
+  if (productDetails.type === 'clothing') {
+    return new Clothing(productDetails);
+  }
+  return new Product(productDetails);
+// so we want to converte the json objects, into a product class
+}); 
+  //console.log(products); we want it display this string instead, to show that it is working
+  console.log('load products');
+  });
+
+return promise; 
+} 
+/*
+// this is going to give us a promise and then we can attach another step using .then(). this attaches another step to the end of this promise line 120
+loadProductsFetch().then(() => {
+  console.log('next step');
+});*/
+
 // so we have saved function renderProdutsGrid(amazon.js, line 49) in a parameter called fun
 export function loadProducts(fun) {
   const xhr = new XMLHttpRequest();
@@ -109,7 +138,7 @@ export function loadProducts(fun) {
   //console.log(products); we want it display this string instead, to show that it is working
   console.log('load products');
 
-  // so we created a function in amazon.js, line 49, saved it in the parameter fun, so after we load the response, we are going to runS the function(Fun();)
+  // so we created a function in amazon.js, line 49, saved it in the parameter fun, so after we load the response, we are going to run the function(Fun();). here we are using a callback 
   fun();
   });
 

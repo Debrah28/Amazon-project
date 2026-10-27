@@ -1,6 +1,6 @@
 import { renderOrderSummary } from "./checkout/orderSummary.js";
 import { renderPaymentSummary } from "./checkout/paymentSummary.js";
-import { loadProducts } from "../data/products.js";
+import { loadProducts, loadProductsFetch } from "../data/products.js";
 import { loadCart } from "../data/cart.js";
 //import '../data/cart-oop.js';
 //import '../data/cart-class.js'; we were using it for pratice 
@@ -18,13 +18,9 @@ import { loadCart } from "../data/cart.js";
   renderPaymentSummary();
 }); // so here we have converted our callback to a Promise*/
 
-Promise.all([
-  new Promise((resolve) => { // we are just using it as examples.
-  loadProducts(() => {
-    resolve('value 1');
-  });
-
-}), 
+// we have change loadProducts to loadProductsFetch. This is because loadProducts from products.js uses callback and loadProductsFetch uses fetch and fetch uses promises
+Promise.all([// we need to give it a promise and fetch returns a promise, so we had to do was just call it. 
+loadProductsFetch(), //this returns a promise andwe can use it with Promise.all
 new Promise((resolve) => {
      loadCart(() => {
       resolve(); // here the console.log will be undefined, because we haven't assigned a value to it.
@@ -83,3 +79,24 @@ new Promise((resolve) => {
   
 }); */
 // this is going to save the anonymous function inside the parameter fun in product.js, line 96 and we shall call fun() still in product.js after we have loaded all the products 
+
+
+
+/* Here loadProducts from products.js uses callback. check line 22 of checkout. js, this file
+Promise.all([
+  new Promise((resolve) => { // we are just using it as examples.
+  loadProducts(() => {
+    resolve('value 1');
+  });
+
+}), 
+new Promise((resolve) => {
+     loadCart(() => {
+      resolve(); // here the console.log will be undefined, because we haven't assigned a value to it.
+     });
+}) // we have basically created an array of promises, so it is going to wait for all the promises to finish before going to the next step.let add next step .then adds a next step to a promise
+]).then((values) => {
+  console.log(values);
+  renderOrderSummary();
+  renderPaymentSummary();
+}); */
