@@ -6,6 +6,45 @@ import { loadCart } from "../data/cart.js";
 //import '../data/cart-class.js'; we were using it for pratice 
 //import '../data/backend-practice.js';
 
+/*async function loadPage() {
+  console.log('load page');
+  return 'value2'; // this value will be saved in a parameter for the next step
+}// we call the function and because it returns a promise, we can add a next step using .then 
+loadPage().then((value) => {
+  console.log('next step');
+  console.log(value);
+});*/
+
+// let run some code that creates a promise, we are using async
+/* async function loadPage() {
+  console.log('load page');
+// loadProductsFetch() loads products from the backend and usually, this returns a promise, one way to wait for this to finish is to use .then and give it a function. so .then runs the function after loadProductsFetch() has finished
+// await gives us another way to wait for this promise(loadProductsFetch()) to finish 
+  await loadProductsFetch(); 
+
+  return 'value2';
+}
+loadPage().then((value) => {
+  console.log('next step');
+  console.log(value);
+});*/ // example of async await
+
+// let use async await in our project.
+async function loadPage() {
+ 
+  await loadProductsFetch(); 
+
+ await new Promise((resolve) => {
+     loadCart(() => {
+      resolve(); // load products wait for it to finish, load cart wait for it to finish. later on finish with the rest of the code(display the page).
+     });
+});
+
+ renderOrderSummary();
+  renderPaymentSummary();
+}
+loadPage()
+
 /*new Promise((resolve) => {
   //console.log(' start promise'); used for examples
   loadProducts(() => {
@@ -19,7 +58,7 @@ import { loadCart } from "../data/cart.js";
 }); // so here we have converted our callback to a Promise*/
 
 // we have change loadProducts to loadProductsFetch. This is because loadProducts from products.js uses callback and loadProductsFetch uses fetch and fetch uses promises
-Promise.all([// we need to give it a promise and fetch returns a promise, so we had to do was just call it. 
+/*Promise.all([// we need to give it a promise and fetch returns a promise, so we had to do was just call it. 
 loadProductsFetch(), //this returns a promise andwe can use it with Promise.all
 new Promise((resolve) => {
      loadCart(() => {
@@ -30,7 +69,7 @@ new Promise((resolve) => {
   console.log(values);
   renderOrderSummary();
   renderPaymentSummary();
-});
+}); */
 
 
 /* new Promise((resolve) => { // we are just using it as examples.
@@ -100,3 +139,17 @@ new Promise((resolve) => {
   renderOrderSummary();
   renderPaymentSummary();
 }); */
+
+
+
+/*async function loadPage() {
+  console.log('load page');
+}
+  is shortcut to this below;
+
+  function loadPage() {
+  return new Promise((resolve) => {
+  console.log('load page'); 
+    resolve();
+  });
+}*/
