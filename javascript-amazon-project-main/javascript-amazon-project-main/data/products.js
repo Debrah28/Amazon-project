@@ -95,6 +95,7 @@ export let products = [];
 
  export function loadProductsFetch() { // this makes an http request
   const promise = fetch(
+    //  'https://error.supersimplebackend.dev/products' this was used to simulate an error
     'https://supersimplebackend.dev/products'
   ).then((response) => {
 //console.log(response);to get the data attach toresponse we type,response.json()
@@ -111,17 +112,21 @@ return response.json();
 }); 
   //console.log(products); we want it display this string instead, to show that it is working
   console.log('load products');
+  }).catch(() => {
+    console.log('Unexpected error. Please try again later');
   });
 
 return promise; 
 } 
+// loadProductsFetch(); we call out the function, because we wanted to simulate an error
+
 /*
 // this is going to give us a promise and then we can attach another step using .then(). this attaches another step to the end of this promise line 120
 loadProductsFetch().then(() => {
   console.log('next step');
 });*/
 
-// so we have saved function renderProdutsGrid(amazon.js, line 49) in a parameter called fun
+// so we have saved function renderProdutsGrid(amazon.js, line 49) in a parameter called fun, this is a callback
 export function loadProducts(fun) {
   const xhr = new XMLHttpRequest();
 
@@ -142,10 +147,25 @@ export function loadProducts(fun) {
   fun();
   });
 
+  xhr.addEventListener('error', () => {
+    console.log('Unexpected error. Please try again later');
+  });
+
   xhr.open('GET', 'https://supersimplebackend.dev/products');
   xhr.send();
 } // we want to load products from the backend
   //loadProducts(); 
+
+  //example of an error
+
+   /*xhr.addEventListener('error', () => {
+    console.log('Unexpected error. Please try again later');
+  });
+
+  xhr.open('GET', 'https://error.supersimplebackend.dev/products');
+  xhr.send();
+} 
+  loadProducts(); */
 
 
 /*export const products = [

@@ -31,15 +31,22 @@ loadPage().then((value) => {
 
 // let use async await in our project.
 async function loadPage() {
- 
-  await loadProductsFetch(); 
+  try {
+    // throw 'error1' throw creates a new error
+      await loadProductsFetch(); // this function is in products.js line 96
 
- await new Promise((resolve) => {
+ const value = await new Promise((resolve, reject) => {
+  // throw 'error2';
      loadCart(() => {
-      resolve(); // load products wait for it to finish, load cart wait for it to finish. later on finish with the rest of the code(display the page).
+      // reject('error3'); // when using reject, you coomment out   resolve('value3'); 
+      resolve('value3'); // load products wait for it to finish, load cart wait for it to finish. later on finish with the rest of the code(display the page).
      });
 });
 
+  } catch (error){
+    console.log('Unexpected error. Please tru again later.');
+  } // we in async await, we are using try/catch to handle errors. Making a request to the backend can lead to an error, that is why some code is in try
+ 
  renderOrderSummary();
   renderPaymentSummary();
 }
