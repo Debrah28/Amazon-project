@@ -2,6 +2,7 @@ import { cart } from "../../data/cart.js";
 import { getProduct } from "../../data/products.js";
 import { getDeliveryOption } from "../../data/deliveryOptions.js";
 import { formatCurrency } from "../utils/money.js";
+import { addOrder } from "../../data/orders.js";
 
 export function renderPaymentSummary() {
   // we want to loop through the cart, then for each product, price*quantity, then add everything together.
@@ -67,10 +68,37 @@ export function renderPaymentSummary() {
             $${formatCurrency(totalCents)}</div>
           </div>
 
-          <button class="place-order-button button-primary">
+          <button class="place-order-button button-primary
+          js-place-order">
             Place your order
           </button>
         `;
-//changing the hyml inside that ellement, that is why we use .innerHTML
+//changing the html inside that element, that is why we use .innerHTML
         document.querySelector('.js-payment-summary').innerHTML = paymentSummaryHTML;
+
+        document.querySelector('.js-place-order').addEventListener('click', async () => {
+          // try/catch does error handling
+          try {
+                     const response = await fetch('https://supersimplebackend.dev/orders', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'appliction/json'
+            },
+            body: JSON.stringify({
+              cart: cart
+            })
+          })
+// so response.json() is a promise, so we can use await to wait for the response, before going to the next line. This will give us a data attached to the response, it should be in order that was created by the backend
+          const order = await response.json();
+          //console.log(order);
+          // after we create an order from the backend, we are going to add it to the array and save it to backend. Using the function addOrder(order)
+          addOrder(order);
+
+          } catch (error) {
+            console.log('Unexpected error. Try again later.');
+          }
+
+          window.location.href = 'orders.html';
+ 
+        });
 }
