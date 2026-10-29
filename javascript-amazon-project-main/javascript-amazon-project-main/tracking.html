@@ -88,5 +88,12 @@
         </div>
       </div>
     </div>
+
+    <script>
+      // this url class analyses the url that we give it and breaks it down into different parts. one of the parts is url parameter. To get the parameters, we are going to use the property url.search
+      const url = new URL(window.location.href);
+      console.log (url.searchParams.get('orderId')); // using this code we can get url parameters out of the url at the top(searh bar) and then use them to create this page
+      console.log (url.searchParams.get('productId')); 
+    </script>
   </body>
 </html>
